@@ -5,8 +5,57 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:dajiangspider"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        xmlns:gmap="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
+        xmlns:provider="clr-namespace:GMap.NET.MapProviders;assembly=GMap.NET.Core"
+        Title="MainWindow" Height="600" Width="800">
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="bollToVisibility"/>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+        <gmap:GMapControl x:Name="map" CanDragMap="True" MinZoom="1" MaxZoom="18" OnPositionChanged="map_OnPositionChanged"/>
+        <Grid Grid.Column="1" VerticalAlignment="Top" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Text="Lat"/>
+            <TextBlock Grid.Row="1" Text="Lng"/>
+            <TextBlock Grid.Row="2" Text="Radius"/>
+            <TextBlock Grid.Row="3" Text="Country"/>
+            <TextBlock Grid.Row="4" Text="Drone"/>
+            <TextBlock Grid.Row="5" Text="Level"/>
+            <TextBlock Grid.Row="6" Text="Uri: "/>
+            <TextBlock Grid.Row="7" Text="请求结果："/>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="10 5 0 0" Text="{Binding Lat}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="10 5 0 0" Text="{Binding Lng}"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Margin="10 5 0 0" Text="{Binding Radius}"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Margin="10 5 0 0" Text="{Binding Country}"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Margin="10 5 0 0" Text="{Binding Drone}"/>
+            <TextBox Grid.Row="5" Grid.Column="1" Margin="10 5 0 0" Text="{Binding Level}"/>
+            <TextBox Grid.Row="6" Grid.Column="1" Margin="10 5 0 0" MaxHeight="200" TextWrapping="Wrap" Text="{Binding CurrentUri}"/>
+            <TextBox Grid.Row="7" Grid.Column="1" Margin="10 5 0 0" TextWrapping="Wrap" MaxHeight="200"  Text="{Binding Result}"/>
+            <ProgressBar Grid.Row="8" Height="20" Grid.ColumnSpan="2" Margin="0 5 0 0" IsIndeterminate="{Binding Processing}"/>
+            <Button Grid.Row="9" Grid.ColumnSpan="2" Margin="10 5 0 0" Width="100" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="请求数据" Click="Button_Click"/>
+        </Grid>
     </Grid>
 </Window>
+ 

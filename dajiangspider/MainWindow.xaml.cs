@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GMap.NET.MapProviders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,21 @@ namespace dajiangspider
         public MainWindow()
         {
             InitializeComponent();
+            map.Position = new GMap.NET.PointLatLng(39, 112);
+            map.Zoom = 10;
+            map.DragButton = MouseButton.Left;
+            map.MapProvider = GMapProviders.BingMap;
+        }
+
+        private void map_OnPositionChanged(GMap.NET.PointLatLng point)
+        {
+            (DataContext as MainWindowViewModel).Lat = point.Lat.ToString();
+            (DataContext as MainWindowViewModel).Lng = point.Lng.ToString();
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+          await  (DataContext as MainWindowViewModel).RequestAsync();
         }
     }
 }
