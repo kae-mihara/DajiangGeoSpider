@@ -32,8 +32,8 @@ namespace dajiangspider
 
         private void map_OnPositionChanged(GMap.NET.PointLatLng point)
         {
-            (DataContext as MainWindowViewModel).Lat = point.Lat.ToString();
-            (DataContext as MainWindowViewModel).Lng = point.Lng.ToString();
+            (DataContext as MainWindowViewModel).Lat = point.Lat;
+            (DataContext as MainWindowViewModel).Lng = point.Lng;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)

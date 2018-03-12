@@ -14,12 +14,18 @@ namespace dajiangspider
         public MainWindowViewModel()
         {
             _level = "1,2,3";
-            _lat = "39";
-            _lng = "112";
+            _lat = 39;
+            _lng = 112;
             _radius = "100000";
             _drone = "spark";
             _country = "CN";
-            
+
+            client.DefaultRequestHeaders.Add("accept", @"application/json");
+            client.DefaultRequestHeaders.Add("user-agent", @"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299");
+            if (!Directory.Exists(DefaultPath))
+            {
+                Directory.CreateDirectory(DefaultPath);
+            }
         }
 
         public async Task RequestAsync()
@@ -39,19 +45,19 @@ namespace dajiangspider
             Result = $"{message.StatusCode}";
             if (message.IsSuccessStatusCode)
             {
-                File.WriteAllText($"{_uri}.json",await message.Content.ReadAsStringAsync());
-                Result = $"已保存到{Environment.CurrentDirectory}";
+                File.WriteAllText($"{DefaultPath}{Lat:f2}_{Lng:f2}.json",await message.Content.ReadAsStringAsync());
+                Result = $"已保存到\n{DefaultPath}";
             }
             Processing = false;
         }
 
+        private static readonly string DefaultPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\DjiGeo\";
         private const string baseUri = @"https://www.dji.com/cn/api/geo/areas?";
 
         private System.Net.Http.HttpClient client = new System.Net.Http.HttpClient(new System.Net.Http.HttpClientHandler()
         {
             UseCookies = true,
-            AllowAutoRedirect = true,
-            
+            AllowAutoRedirect = true,           
         });
         private bool _processing;
         public bool Processing
@@ -78,14 +84,14 @@ namespace dajiangspider
             set { _level = value; OnPropertyChanged(nameof(Level)); }
         }
 
-        private string _lat;
-        public string Lat
+        private double _lat;
+        public double Lat
         {
             get => _lat;
             set { _lat = value; OnPropertyChanged("Lat"); }
         }
-        private string _lng;
-        public string Lng
+        private double _lng;
+        public double Lng
         {
             get => _lng;
             set { _lng = value; OnPropertyChanged("Lng"); }
